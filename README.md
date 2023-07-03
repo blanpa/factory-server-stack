@@ -1,2 +1,3 @@
-# factory-server-stack
-factory-server-stack
+simple-factory-server-stack
+
+passwords
