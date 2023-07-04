@@ -4,7 +4,7 @@
 # 
 # 
 ################################################################################
-version: '3.7'
+version: '3'
 
 volumes: 
   grafana_data: {}
@@ -14,55 +14,74 @@ networks:
   back-tier:
 
 services:
+  mqtt-broker:
+    image: hivemq/hivemq4
+    ports:
+      - 1883:1883
+      #- 8883:8883
+    volumes:
+      - ./certs:/opt/hivemq/certs
+    environment:      
+      - MQTT_USERNAME=user
+      - MQTT_PASSWORD=simplefactoryserverstack
+      # - HIVE_MQ_LICENSE_FILE=/opt/hivemq/license/license.lic
+      # - HIVE_MQ_BIND_ADDRESS=0.0.0.0
+      # - HIVE_MQ_WEB_UI_HTTP_BIND_ADDRESS=0.0.0.0
+      # - HIVE_MQ_WEB_UI_HTTPS_BIND_ADDRESS=0.0.0.0
+      # - HIVE_MQ_CONTROL_CENTER_BIND_ADDRESS=0.0.0.0
+    restart: always
+
   node-red:
-    image: 
+    image: nodered/node-red
+    environment:
+      - NODE_RED_USERNAME=user
+      - NODE_RED_PASSWORD=simplefactoryserverstack
+    ports:
+      - 1880:1880
+    volumes:
+      - ./node-red:/data
+    restart: always
     network_mode: host
     privileged: true
-    restart: always
-    environment:
     group_add:
     - dialout
-    volumes:
-    - ./node-red:/data
-  mqtt:
-    image: eclipse-mosquitto:1.6.9
-    restart: always
-    ports:
-    - 1883:1883
-    
-  portainer:
 
   timescaledb:
-
-  db:
-    image: postgres
-    restart: always
+    image: timescale/timescaledb
     environment:
-      POSTGRES_PASSWORD: example
-    ports:
-      - "5432:5432"
-    networks:
-      - back-tier
-
-  adminer:
-    image: adminer
+      - POSTGRES_USER=user
+      - POSTGRES_PASSWORD=simplefactoryserverstack
+    volumes:
+      - ./timescaledb:/var/lib/postgresql/data
     restart: always
-    ports:
-      - "8080:8080"
-    networks:
-      - back-tier
-      - front-tier  
 
   grafana:
     image: grafana/grafana
-    user: "472"
+    environment:
+      - GF_SECURITY_ADMIN_USER=user
+      - GF_SECURITY_ADMIN_PASSWORD=simplefactoryserverstack
     ports:
-      - "3000:3000"
+      - 3000:3000
     volumes:
-      - ./config/grafana_datasources.yaml:/etc/grafana/provisioning/datasources/datasource.yaml:ro
-      - ./config/grafana_dashboards.yaml:/etc/grafana/provisioning/dashboards/dashboards.yaml:ro
-      - ./dashboards:/opt/grafana/dashboards
-    networks:
-      - back-tier
-      - front-tier
+      - ./grafana:/var/lib/grafana
+    restart: always
+
+  adminer:
+    image: adminer
+    environment:
+      - ADMINER_DESIGN_USERNAME=user
+      - ADMINER_DESIGN_PASSWORD=simplefactoryserverstack
+    ports:
+      - 8080:8080
+    restart: always
+
+  portainer:
+    image: portainer/portainer
+    environment:
+      - ADMIN_USERNAME=user
+      - ADMIN_PASSWORD=simplefactoryserverstack
+    ports:
+      - 9000:9000
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
     restart: always
