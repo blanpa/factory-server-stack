@@ -15,10 +15,12 @@ networks:
 
 services:
   mqtt-broker:
+    container_name: hivemq4-mqtt-broker
     image: hivemq/hivemq4
     ports:
       - 1883:1883
-      #- 8883:8883
+      - 9001:9001
+      - 8081:8080
     volumes:
       - ./certs:/opt/hivemq/certs
     environment:      
@@ -32,41 +34,69 @@ services:
     restart: always
 
   node-red:
-    image: nodered/node-red
+    container_name: node-red
+    image: nodered/node-red:latest
     environment:
-      - NODE_RED_USERNAME=user
-      - NODE_RED_PASSWORD=simplefactoryserverstack
+      - TZ=Europe/Amsterdam
+      # - NODE_RED_USERNAME=user
+      # - NODE_RED_PASSWORD=simplefactoryserverstack
+      #- objekttyp=9999
+      #- objektindex=001
+      - mqtt_BrokerURL=localhost
+      - mqtt_BrokerPort=1883
+      # - mqtt_ClientID=9999/001
+      - mqtt_version=v1
+      # - mqtt_inTopic=9999/001/+/v1
+      # - mqtt_statusTopic=9999/001/status/v1
+      - mqtt_MsgOnConnect=up
+      - mqtt_MsgOnDisconnect=down
     ports:
       - 1880:1880
     volumes:
       - ./node-red:/data
+      - ./recipes/:/data/recipes
     restart: always
-    network_mode: host
-    privileged: true
-    group_add:
-    - dialout
+    #network_mode: host
+    # privileged: true
+    #group_add:
+    #   - dialout
 
   timescaledb:
-    image: timescale/timescaledb
+    container_name: timescaledb
+    image: timescale/timescaledb:latest-pg15
     environment:
       - POSTGRES_USER=user
       - POSTGRES_PASSWORD=simplefactoryserverstack
+      - POSTGRES_DB=postgresdb
     volumes:
-      - ./timescaledb:/var/lib/postgresql/data
-    restart: always
+      #- ./timescaledb:/var/lib/postgresql/data
+      - /timescaledb:/home/postgres/pgdata/data \
+    restart: unless-stopped
+    ports:
+      - 5432:5432
 
   grafana:
-    image: grafana/grafana
-    environment:
-      - GF_SECURITY_ADMIN_USER=user
-      - GF_SECURITY_ADMIN_PASSWORD=simplefactoryserverstack
+    container_name: grafana
+    image: grafana/grafana-oss
+    #environment:
+      # - TZ=Etc/UTC
+      # - GF_SECURITY_ADMIN_USER=user
+      # - GF_SECURITY_ADMIN_PASSWORD=simplefactoryserverstack
     ports:
       - 3000:3000
+    user: "0"
     volumes:
       - ./grafana:/var/lib/grafana
     restart: always
+    # healthcheck:
+    #   test: ["CMD", "wget", "-O", "/dev/null", "http://localhost:3000"]
+    #   interval: 30s
+    #   timeout: 10s
+    #   retries: 3
+    #   start_period: 30s
 
   adminer:
+    container_name: adminer
     image: adminer
     environment:
       - ADMINER_DESIGN_USERNAME=user
@@ -75,13 +105,28 @@ services:
       - 8080:8080
     restart: always
 
-  portainer:
-    image: portainer/portainer
-    environment:
-      - ADMIN_USERNAME=user
-      - ADMIN_PASSWORD=simplefactoryserverstack
+  dremio:
+    container_name: dremio
+    image: dremio/dremio-oss
     ports:
-      - 9000:9000
+      - 9047:9047
+      - 31010:31010
+      - 45678:45678
     volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-    restart: always
+      - ./dremio-data:/var/lib/dremio
+    environment:
+      - DREMIO_JAVA_EXTRA_OPTS=-XX:+HeapDumpOnOutOfMemoryError
+    restart: unless-stopped
+
+
+  # portainer:
+  #   container_name: portainer
+  #   image: portainer/portainer
+  #   environment:
+  #     - ADMIN_USERNAME=user
+  #     - ADMIN_PASSWORD=simplefactoryserverstack
+  #   ports:
+  #     - 9000:9000
+  #   volumes:
+  #     - /var/run/docker.sock:/var/run/docker.sock
+  #   restart: always

@@ -1,0 +1,961 @@
+[
+    {
+        "id": "bc2d9adebfb5ac96",
+        "type": "tab",
+        "label": "Shelly",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "1ce071ea46e8e8d7",
+        "type": "tab",
+        "label": "Plant",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "d8427fba5a92b6b9",
+        "type": "mqtt-broker",
+        "name": "",
+        "broker": "hivemq4-mqtt-broker",
+        "port": "1883",
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": "3",
+        "keepalive": "60",
+        "cleansession": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    },
+    {
+        "id": "9e0151e85d0259ce",
+        "type": "postgreSQLConfig",
+        "name": "",
+        "host": "timescaledb",
+        "hostFieldType": "str",
+        "port": "5432",
+        "portFieldType": "num",
+        "database": "postgresdb",
+        "databaseFieldType": "str",
+        "ssl": "false",
+        "sslFieldType": "bool",
+        "applicationName": "",
+        "applicationNameType": "str",
+        "max": "10",
+        "maxFieldType": "num",
+        "idle": "1000",
+        "idleFieldType": "num",
+        "connectionTimeout": "10000",
+        "connectionTimeoutFieldType": "num",
+        "user": "user",
+        "userFieldType": "str",
+        "password": "simplefactoryserverstack",
+        "passwordFieldType": "str"
+    },
+    {
+        "id": "15bec5d68ddc7df6",
+        "type": "postgresdb",
+        "hostname": "localhost",
+        "port": "5432",
+        "db": "postgres",
+        "ssl": false
+    },
+    {
+        "id": "ef70a1a06d065601",
+        "type": "file in",
+        "z": "bc2d9adebfb5ac96",
+        "name": "",
+        "filename": "/data/recipes/shellyplug_s_5A6C13.sql",
+        "filenameType": "str",
+        "format": "utf8",
+        "chunk": false,
+        "sendError": false,
+        "encoding": "utf8",
+        "allProps": false,
+        "x": 570,
+        "y": 100,
+        "wires": [
+            [
+                "922163d3401686f1"
+            ]
+        ]
+    },
+    {
+        "id": "e16c559f036a3302",
+        "type": "inject",
+        "z": "bc2d9adebfb5ac96",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 280,
+        "y": 100,
+        "wires": [
+            [
+                "ef70a1a06d065601"
+            ]
+        ]
+    },
+    {
+        "id": "6c600d32fd57b4ee",
+        "type": "mqtt in",
+        "z": "bc2d9adebfb5ac96",
+        "name": "",
+        "topic": "shellies/shellyplug-s-5A6C13/relay/0",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "d8427fba5a92b6b9",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 220,
+        "y": 380,
+        "wires": [
+            [
+                "fe59eac08f424a5f",
+                "7e4f9294c125d199",
+                "bb298555ab7b4f50"
+            ]
+        ]
+    },
+    {
+        "id": "71fbec20c3b0712d",
+        "type": "mqtt in",
+        "z": "bc2d9adebfb5ac96",
+        "name": "",
+        "topic": "shellies/shellyplug-s-5A6C13/relay/0/power",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "d8427fba5a92b6b9",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 240,
+        "y": 420,
+        "wires": [
+            [
+                "fe59eac08f424a5f",
+                "76793164a9baa673",
+                "58fada4d43ecb5c0"
+            ]
+        ]
+    },
+    {
+        "id": "98ea63bcf3bdad50",
+        "type": "mqtt in",
+        "z": "bc2d9adebfb5ac96",
+        "name": "",
+        "topic": "shellies/shellyplug-s-5A6C13/relay/0/energy",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "d8427fba5a92b6b9",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 250,
+        "y": 460,
+        "wires": [
+            [
+                "fe59eac08f424a5f",
+                "a29f5d8366478e6c",
+                "9129205dafe3c94d"
+            ]
+        ]
+    },
+    {
+        "id": "a97b7b6baed87b10",
+        "type": "mqtt out",
+        "z": "bc2d9adebfb5ac96",
+        "name": "",
+        "topic": "shellies/shellyplug-s-5A6C13/relay/0/command",
+        "qos": "2",
+        "retain": "true",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "d8427fba5a92b6b9",
+        "x": 320,
+        "y": 940,
+        "wires": []
+    },
+    {
+        "id": "49910c3b81e8e11f",
+        "type": "mqtt in",
+        "z": "bc2d9adebfb5ac96",
+        "name": "",
+        "topic": "shellies/shellyplug-s-5A6C13/relay/0/command",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "d8427fba5a92b6b9",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 260,
+        "y": 500,
+        "wires": [
+            [
+                "fe59eac08f424a5f",
+                "604f12baa9652540"
+            ]
+        ]
+    },
+    {
+        "id": "3a316db1b16026f9",
+        "type": "mqtt in",
+        "z": "bc2d9adebfb5ac96",
+        "name": "",
+        "topic": "shellies/shellyplug-s-5A6C13/temperature",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "d8427fba5a92b6b9",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 240,
+        "y": 580,
+        "wires": [
+            [
+                "fe59eac08f424a5f",
+                "7968e49fd9f4554d",
+                "81e6152bbc55d995"
+            ]
+        ]
+    },
+    {
+        "id": "038d516f4397514f",
+        "type": "inject",
+        "z": "bc2d9adebfb5ac96",
+        "name": "",
+        "props": [
+            {
+                "p": "topic",
+                "vt": "str"
+            },
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "on",
+        "payload": "on",
+        "payloadType": "str",
+        "x": 170,
+        "y": 760,
+        "wires": [
+            [
+                "a97b7b6baed87b10"
+            ]
+        ]
+    },
+    {
+        "id": "56ac046174c7a11b",
+        "type": "inject",
+        "z": "bc2d9adebfb5ac96",
+        "name": "",
+        "props": [
+            {
+                "p": "topic",
+                "vt": "str"
+            },
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "off",
+        "payload": "off",
+        "payloadType": "str",
+        "x": 170,
+        "y": 800,
+        "wires": [
+            [
+                "a97b7b6baed87b10"
+            ]
+        ]
+    },
+    {
+        "id": "fe59eac08f424a5f",
+        "type": "debug",
+        "z": "bc2d9adebfb5ac96",
+        "name": "debug 3",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 600,
+        "y": 280,
+        "wires": []
+    },
+    {
+        "id": "922163d3401686f1",
+        "type": "postgresql",
+        "z": "bc2d9adebfb5ac96",
+        "name": "",
+        "query": "{{{msg.payload}}}",
+        "postgreSQLConfig": "9e0151e85d0259ce",
+        "split": false,
+        "rowsPerMsg": 1,
+        "outputs": 1,
+        "x": 850,
+        "y": 100,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "c1545ff541aa2a0e",
+        "type": "comment",
+        "z": "bc2d9adebfb5ac96",
+        "name": "Datenbanken erstellen",
+        "info": "Datenbank erstellen",
+        "x": 200,
+        "y": 60,
+        "wires": []
+    },
+    {
+        "id": "6086341ca9fe187a",
+        "type": "complete",
+        "z": "bc2d9adebfb5ac96",
+        "name": "",
+        "scope": [],
+        "uncaught": false,
+        "x": 230,
+        "y": 240,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "7e4f9294c125d199",
+        "type": "postgresql",
+        "z": "bc2d9adebfb5ac96",
+        "name": "",
+        "query": "INSERT INTO public.shellyplug_s_5a6c13_state_relay (\ntime,\nrelay\n)\nVALUES (\n    current_timestamp, \n    '{{{msg.payload}}}'\n    );",
+        "postgreSQLConfig": "9e0151e85d0259ce",
+        "split": false,
+        "rowsPerMsg": 1,
+        "outputs": 1,
+        "x": 1090,
+        "y": 380,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "76793164a9baa673",
+        "type": "postgresql",
+        "z": "bc2d9adebfb5ac96",
+        "name": "",
+        "query": "INSERT INTO public.shellyplug_s_5a6c13_state_power (\ntime,\npower\n)\nVALUES (\n    current_timestamp, \n    {{{msg.payload}}}\n    );",
+        "postgreSQLConfig": "9e0151e85d0259ce",
+        "split": false,
+        "rowsPerMsg": 1,
+        "outputs": 1,
+        "x": 1090,
+        "y": 420,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "a29f5d8366478e6c",
+        "type": "postgresql",
+        "z": "bc2d9adebfb5ac96",
+        "name": "",
+        "query": "INSERT INTO public.shellyplug_s_5a6c13_state_energy (\ntime,\nenergy\n)\nVALUES (\n    current_timestamp, \n    {{{msg.payload}}}\n    );",
+        "postgreSQLConfig": "9e0151e85d0259ce",
+        "split": false,
+        "rowsPerMsg": 1,
+        "outputs": 1,
+        "x": 1090,
+        "y": 460,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "604f12baa9652540",
+        "type": "postgresql",
+        "z": "bc2d9adebfb5ac96",
+        "name": "",
+        "query": "INSERT INTO public.shellyplug_s_5a6c13_state_command (\ntime,\ncommand\n)\nVALUES (\n    current_timestamp, \n    '{{{msg.payload}}}'\n    );",
+        "postgreSQLConfig": "9e0151e85d0259ce",
+        "split": false,
+        "rowsPerMsg": 1,
+        "outputs": 1,
+        "x": 1090,
+        "y": 500,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "6608789bf9840ce7",
+        "type": "postgresql",
+        "z": "bc2d9adebfb5ac96",
+        "name": "",
+        "query": "INSERT INTO public.shellyplug_s_5a6c13_state_overtemperature(\ntime,\novertemperature\n)\nVALUES (\n    current_timestamp, \n    {{{msg.payload}}}\n    );",
+        "postgreSQLConfig": "9e0151e85d0259ce",
+        "split": false,
+        "rowsPerMsg": 1,
+        "outputs": 1,
+        "x": 1090,
+        "y": 540,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "73f904c18f2a0937",
+        "type": "mqtt in",
+        "z": "bc2d9adebfb5ac96",
+        "name": "",
+        "topic": "shellies/shellyplug-s-5A6C13/overtemperature",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "d8427fba5a92b6b9",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 250,
+        "y": 540,
+        "wires": [
+            [
+                "6608789bf9840ce7",
+                "287582cd17558aa7"
+            ]
+        ]
+    },
+    {
+        "id": "7968e49fd9f4554d",
+        "type": "postgresql",
+        "z": "bc2d9adebfb5ac96",
+        "name": "",
+        "query": "INSERT INTO public.shellyplug_s_5a6c13_state_temperature(\ntime,\ntemperature\n)\nVALUES (\n    current_timestamp, \n    {{{msg.payload}}}\n    );",
+        "postgreSQLConfig": "9e0151e85d0259ce",
+        "split": false,
+        "rowsPerMsg": 1,
+        "outputs": 1,
+        "x": 1090,
+        "y": 580,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "67f827a11053bbcb",
+        "type": "catch",
+        "z": "bc2d9adebfb5ac96",
+        "name": "",
+        "scope": null,
+        "uncaught": false,
+        "x": 280,
+        "y": 140,
+        "wires": [
+            [
+                "ef70a1a06d065601"
+            ]
+        ]
+    },
+    {
+        "id": "10d86f959c47ed44",
+        "type": "join",
+        "z": "bc2d9adebfb5ac96",
+        "name": "",
+        "mode": "custom",
+        "build": "object",
+        "property": "payload",
+        "propertyType": "msg",
+        "key": "topic",
+        "joiner": ",",
+        "joinerType": "str",
+        "accumulate": false,
+        "timeout": "",
+        "count": "5",
+        "reduceRight": false,
+        "reduceExp": "",
+        "reduceInit": "",
+        "reduceInitType": "num",
+        "reduceFixup": "",
+        "x": 950,
+        "y": 780,
+        "wires": [
+            [
+                "eca67f046d69cba7"
+            ]
+        ]
+    },
+    {
+        "id": "93bb71e1788ab8a5",
+        "type": "debug",
+        "z": "bc2d9adebfb5ac96",
+        "name": "debug 5",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1260,
+        "y": 680,
+        "wires": []
+    },
+    {
+        "id": "eca67f046d69cba7",
+        "type": "postgresql",
+        "z": "bc2d9adebfb5ac96",
+        "name": "",
+        "query": "INSERT INTO public.shellyplug_s_5a6c13_complete (\ntime,\nrelay,\npower,\nenergy,\novertemperature,\ntemperature\n)\nVALUES (\n    current_timestamp, \n    '{{{msg.payload.relay}}}',\n    {{{msg.payload.powers}}},\n    {{{msg.payload.energy}}},\n    {{{msg.payload.overtemperature}}},\n    {{{msg.payload.temperature}}}\n    );",
+        "postgreSQLConfig": "9e0151e85d0259ce",
+        "split": false,
+        "rowsPerMsg": 1,
+        "outputs": 1,
+        "x": 1090,
+        "y": 660,
+        "wires": [
+            [
+                "93bb71e1788ab8a5"
+            ]
+        ]
+    },
+    {
+        "id": "bb298555ab7b4f50",
+        "type": "change",
+        "z": "bc2d9adebfb5ac96",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "topic",
+                "pt": "msg",
+                "to": "relay",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 720,
+        "y": 700,
+        "wires": [
+            [
+                "10d86f959c47ed44"
+            ]
+        ]
+    },
+    {
+        "id": "58fada4d43ecb5c0",
+        "type": "change",
+        "z": "bc2d9adebfb5ac96",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "topic",
+                "pt": "msg",
+                "to": "powers",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 720,
+        "y": 740,
+        "wires": [
+            [
+                "10d86f959c47ed44"
+            ]
+        ]
+    },
+    {
+        "id": "9129205dafe3c94d",
+        "type": "change",
+        "z": "bc2d9adebfb5ac96",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "topic",
+                "pt": "msg",
+                "to": "energy",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 720,
+        "y": 780,
+        "wires": [
+            [
+                "10d86f959c47ed44"
+            ]
+        ]
+    },
+    {
+        "id": "287582cd17558aa7",
+        "type": "change",
+        "z": "bc2d9adebfb5ac96",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "topic",
+                "pt": "msg",
+                "to": "overtemperature",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 720,
+        "y": 820,
+        "wires": [
+            [
+                "10d86f959c47ed44"
+            ]
+        ]
+    },
+    {
+        "id": "81e6152bbc55d995",
+        "type": "change",
+        "z": "bc2d9adebfb5ac96",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "topic",
+                "pt": "msg",
+                "to": "temperature",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 720,
+        "y": 860,
+        "wires": [
+            [
+                "10d86f959c47ed44"
+            ]
+        ]
+    },
+    {
+        "id": "fbc4607d18da930f",
+        "type": "file in",
+        "z": "1ce071ea46e8e8d7",
+        "name": "",
+        "filename": "/data/recipes/plant_sensor.sql",
+        "filenameType": "str",
+        "format": "utf8",
+        "chunk": false,
+        "sendError": false,
+        "encoding": "utf8",
+        "allProps": false,
+        "x": 410,
+        "y": 100,
+        "wires": [
+            [
+                "89f44b3e40662ec9"
+            ]
+        ]
+    },
+    {
+        "id": "25688e8e4307331c",
+        "type": "inject",
+        "z": "1ce071ea46e8e8d7",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 140,
+        "y": 100,
+        "wires": [
+            [
+                "fbc4607d18da930f"
+            ]
+        ]
+    },
+    {
+        "id": "89f44b3e40662ec9",
+        "type": "postgresql",
+        "z": "1ce071ea46e8e8d7",
+        "name": "",
+        "query": "{{{msg.payload}}}",
+        "postgreSQLConfig": "9e0151e85d0259ce",
+        "split": false,
+        "rowsPerMsg": 1,
+        "outputs": 1,
+        "x": 690,
+        "y": 100,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "ba177c24ec3736a0",
+        "type": "mqtt in",
+        "z": "1ce071ea46e8e8d7",
+        "name": "",
+        "topic": "iot/plant/moist_value",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "d8427fba5a92b6b9",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 150,
+        "y": 240,
+        "wires": [
+            [
+                "4610e77e8617ace9",
+                "c3368157e9a50da0"
+            ]
+        ]
+    },
+    {
+        "id": "e4953a80a71f1d82",
+        "type": "mqtt in",
+        "z": "1ce071ea46e8e8d7",
+        "name": "",
+        "topic": "iot/plant/temp_value",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "d8427fba5a92b6b9",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 150,
+        "y": 280,
+        "wires": [
+            [
+                "8755575768b2a3a3",
+                "c3368157e9a50da0"
+            ]
+        ]
+    },
+    {
+        "id": "961c860f070b19ef",
+        "type": "mqtt in",
+        "z": "1ce071ea46e8e8d7",
+        "name": "",
+        "topic": "iot/plant/motion_value",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "d8427fba5a92b6b9",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 160,
+        "y": 320,
+        "wires": [
+            [
+                "e2d52dff678ad0fb",
+                "c3368157e9a50da0"
+            ]
+        ]
+    },
+    {
+        "id": "538e2a44c842572c",
+        "type": "mqtt in",
+        "z": "1ce071ea46e8e8d7",
+        "name": "",
+        "topic": "iot/plant/all",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "d8427fba5a92b6b9",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 120,
+        "y": 360,
+        "wires": [
+            [
+                "606c2314f34deffd",
+                "c3368157e9a50da0"
+            ]
+        ]
+    },
+    {
+        "id": "606c2314f34deffd",
+        "type": "postgresql",
+        "z": "1ce071ea46e8e8d7",
+        "name": "",
+        "query": "INSERT INTO public.plant_sensor_data_complete (\ntime,\nmoisture_value ,\ntemp_value ,\nmotion_value \n)\nVALUES (\n    current_timestamp, \n    {{{msg.payload.moisture_value}}},\n    {{{msg.payload.temp_value}}},\n    {{{msg.payload.motion_value}}}\n    );",
+        "postgreSQLConfig": "9e0151e85d0259ce",
+        "split": false,
+        "rowsPerMsg": 1,
+        "outputs": 1,
+        "x": 690,
+        "y": 360,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "4610e77e8617ace9",
+        "type": "postgresql",
+        "z": "1ce071ea46e8e8d7",
+        "name": "",
+        "query": "INSERT INTO public.plant_sensor_moisture_value (\ntime,\nmoisture_value\n)\nVALUES (\n    current_timestamp, \n    {{{msg.payload}}}\n    );",
+        "postgreSQLConfig": "9e0151e85d0259ce",
+        "split": false,
+        "rowsPerMsg": 1,
+        "outputs": 1,
+        "x": 690,
+        "y": 240,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "8755575768b2a3a3",
+        "type": "postgresql",
+        "z": "1ce071ea46e8e8d7",
+        "name": "",
+        "query": "INSERT INTO public.plant_sensor_temp_value (\ntime,\ntemp_value\n)\nVALUES (\n    current_timestamp, \n    {{{msg.payload}}}\n    );",
+        "postgreSQLConfig": "9e0151e85d0259ce",
+        "split": false,
+        "rowsPerMsg": 1,
+        "outputs": 1,
+        "x": 690,
+        "y": 280,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "e2d52dff678ad0fb",
+        "type": "postgresql",
+        "z": "1ce071ea46e8e8d7",
+        "name": "",
+        "query": "INSERT INTO public.plant_sensor_motion_value (\ntime,\nmotion_value\n)\nVALUES (\n    current_timestamp, \n    {{{msg.payload}}}\n    );",
+        "postgreSQLConfig": "9e0151e85d0259ce",
+        "split": false,
+        "rowsPerMsg": 1,
+        "outputs": 1,
+        "x": 690,
+        "y": 320,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "762b5da478daeffb",
+        "type": "comment",
+        "z": "1ce071ea46e8e8d7",
+        "name": "Datenbanken erstellen",
+        "info": "Datenbank erstellen",
+        "x": 100,
+        "y": 60,
+        "wires": []
+    },
+    {
+        "id": "c3368157e9a50da0",
+        "type": "debug",
+        "z": "1ce071ea46e8e8d7",
+        "name": "debug 4",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 700,
+        "y": 420,
+        "wires": []
+    },
+    {
+        "id": "e7fe25aa52217029",
+        "type": "catch",
+        "z": "1ce071ea46e8e8d7",
+        "name": "",
+        "scope": null,
+        "uncaught": false,
+        "x": 100,
+        "y": 140,
+        "wires": [
+            [
+                "fbc4607d18da930f"
+            ]
+        ]
+    }
+]
